@@ -1,9 +1,0 @@
-<swiper [config]="sliderOpt">
-  <ng-template *ngFor="let peliculas of peliculasRecientes" swiperSlide>
-
-    <ion-card>
-      <img [src]="peliculas.poster_path | imagen:'w200'"><img>
-    </ion-card>
-
-  </ng-template>
-</swiper>
