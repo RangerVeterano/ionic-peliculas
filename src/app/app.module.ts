@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 //importamos modulo de peticiones http
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,12 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     HttpClientModule, //modulo de peticiones http
     IonicStorageModule.forRoot({
       name:'__peliculasDB'
-    }) //modulo para guardar datos localmente
+    }), ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: environment.production,
+  // Register the ServiceWorker as soon as the app is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+}) //modulo para guardar datos localmente
     
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
