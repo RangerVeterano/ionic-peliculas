@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import SwiperCore, { FreeMode, SwiperOptions } from 'swiper';
+import { DetalleComponent } from '../detalle/detalle.component';
+import { ModalController } from '@ionic/angular';
 
 
 SwiperCore.use([FreeMode])
@@ -22,8 +24,20 @@ export class SlideshowPosterComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() { }
+
+  async verDetalles(id: number) {
+
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: {
+        id
+      }
+    })
+
+    modal.present();
+  }
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RespuestaMDB } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCredits } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
 
 const url = environment.url; //Constante con la url para las peticiones
@@ -11,6 +11,9 @@ const apiKey = environment.apikey; // Constante con la apikey
   providedIn: 'root'
 })
 export class MoviesService {
+
+  // Propiedad privada para controlar la pagina de los populares
+  private popularesPage: number = 0;
 
   //inyectamos servicio de peticiones http
   constructor(
@@ -43,6 +46,30 @@ export class MoviesService {
     const fin = `${hoy.getFullYear()}-${mesString}-${ultimoDia}`
 
     return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_release_date.gte=${inicio}&primary_release_date.lte=${fin}`);
+  }
+
+  //Metodo para conseguir las peliculas más populares
+  getPopulates(): Observable<RespuestaMDB> {
+
+    this.popularesPage++;
+
+    const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPage}`;
+
+    return this.ejecutarQuery<RespuestaMDB>(query);
+  }
+
+  //metodo para conseguir los detalles de las peliculas
+  getPeliculaDetalle(id: string): Observable<PeliculaDetalle> {
+    return this.ejecutarQuery<PeliculaDetalle>(`/movie/${id}?a=1`);
+  }
+
+  //metodo para conseguir los detalles de las peliculas
+  getActoresPelicula(id: string): Observable<RespuestaCredits> {
+    return this.ejecutarQuery<RespuestaCredits>(`/movie/${id}/credits?a=1`);
+  }
+
+  buscarPeliculas(string) {
+    return this.ejecutarQuery(`/search/movie?query=${string}`);
   }
 
   //metodo privado para realiar las peticiones

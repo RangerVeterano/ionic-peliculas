@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 //Para poder manejar con comodidad las opciones del swipe tenemos que imporar lo que queremos
 import SwiperCore, { FreeMode, SwiperOptions } from 'swiper';
+import { Pelicula } from '../../interfaces/interfaces';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 SwiperCore.use([FreeMode]);//Indicamos que use el modo libre
 
@@ -21,10 +24,25 @@ export class SlidehowBackdropComponent implements OnInit {
     }
   }
 
-  @Input() peliculasRecientes; //Declaracion de las peliculas
+  @Input() peliculasRecientes: Pelicula[]; //Declaracion de las peliculas
 
-  constructor() { }
+  //inyectamos controlador para los modales
+  constructor(
+    private modalCtrl: ModalController
+  ) { }
 
   ngOnInit() { }
+
+  async verDetalles(id: number) {
+
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: {
+        id
+      }
+    })
+
+    modal.present();
+  }
 
 }

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 
 //importamos modulo de peticiones http
 import { HttpClientModule } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,7 +18,10 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule //modulo de peticiones http
+    HttpClientModule, //modulo de peticiones http
+    IonicStorageModule.forRoot({
+      name:'__peliculasDB'
+    }) //modulo para guardar datos localmente
     
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

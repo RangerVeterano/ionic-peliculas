@@ -8,12 +8,16 @@ import { SwiperModule } from 'swiper/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { SlidehowBackdropComponent } from './slidehow-backdrop/slidehow-backdrop.component';
 import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.component';
+import { SlideshowParesComponent } from './slideshow-pares/slideshow-pares.component';
+import { DetalleComponent } from './detalle/detalle.component';
 
 
 @NgModule({
   declarations: [
     SlidehowBackdropComponent, //recuerda declarar los compontes
-    SlideshowPosterComponent
+    SlideshowPosterComponent,
+    SlideshowParesComponent,
+    DetalleComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { SlideshowPosterComponent } from './slideshow-poster/slideshow-poster.co
   ],
   exports: [
     SlidehowBackdropComponent, //Lo quermos emplear fuera de este modulo
-    SlideshowPosterComponent
+    SlideshowPosterComponent,
+    SlideshowParesComponent,
+    DetalleComponent
   ]
 })
 export class ComponentsModule { }

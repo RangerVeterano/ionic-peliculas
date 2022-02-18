@@ -15,12 +15,17 @@ export class Tab1Page implements OnInit {
   //Variable para almacenar las peliculas recientes
   peliculasRecientes: Pelicula[] = []
 
+  //Variable para almacenar las peliculas más populares
+  populares: Pelicula[] = [];
+
   //inyectamos nuestro servicio de peliculas
   constructor(
     private ms: MoviesService
   ) { }
 
   ngOnInit(): void {
+
+    //Peticion para todas las peliculas del mes actual
     this.ms.getFeature()
       .subscribe({
         next: resp => {
@@ -28,6 +33,28 @@ export class Tab1Page implements OnInit {
           //Guardamos las peliculas de la peticion dentro de nuestra variable local
           this.peliculasRecientes = resp.results;
 
+        }
+      })
+
+    this.getPopulares();
+
+  }
+
+  //Metodo que me sirve para cargar más peliculas destacadas
+  cargarMas() {
+    this.getPopulares();
+  }
+
+  private getPopulares() {
+
+    //peticion para las peliculas más populares
+    this.ms.getPopulates()
+      .subscribe({
+        next: resp => {
+
+          const arrTemp = [...this.populares, ...resp.results]
+
+          this.populares = arrTemp;
         }
       })
   }
