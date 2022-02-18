@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import SwiperCore, { FreeMode, SwiperOptions } from 'swiper';
 import { DetalleComponent } from '../detalle/detalle.component';
 import { ModalController } from '@ionic/angular';
@@ -14,6 +14,7 @@ SwiperCore.use([FreeMode])
 export class SlideshowPosterComponent implements OnInit {
 
   @Input() peliculasRecientes; //Declaracion de las peliculas
+  @Output() actualizarFavoritos = new EventEmitter();
 
   //Opciones del slider
   sliderOpt: SwiperOptions = {
@@ -34,10 +35,18 @@ export class SlideshowPosterComponent implements OnInit {
       component: DetalleComponent,
       componentProps: {
         id
-      }
+      },
+
     })
 
+    modal.onWillDismiss()
+      .then(() => {
+        this.actualizarFavoritos.emit();
+      })
+
     modal.present();
+
+
   }
 
 }

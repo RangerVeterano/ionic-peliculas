@@ -14,6 +14,7 @@ SwiperCore.use([FreeMode])
 })
 export class DetalleComponent implements OnInit {
 
+
   //configuraciones de slider
   sliderOpt: SwiperOptions = {
     slidesPerView: 3.3,
@@ -36,7 +37,7 @@ export class DetalleComponent implements OnInit {
   oculto: number = 150;
 
   //variable para marcar detalle del favorito
-  estrella: string = 'star-outline';
+  estrella: boolean =  true;
 
   //inyectamos servicio de peliculas
   //inyectamos servicio para controlar lo modales
@@ -46,9 +47,9 @@ export class DetalleComponent implements OnInit {
     private dataLocal: DataLocalService
   ) { }
 
-  ngOnInit() {
-    this.dataLocal.existePelicula(this.id)
-      .then(existe => this.estrella = (existe) ? 'star' : 'star-outline')
+  async ngOnInit() {
+
+    this.estrella = await this.dataLocal.existePelicula(this.id)
 
     this.ms.getPeliculaDetalle(this.id)
       .subscribe(resp => {
@@ -63,7 +64,7 @@ export class DetalleComponent implements OnInit {
   }
 
   //Metodo para tirar para atrás
-  regresar() {
+  regresar() {    
     this.modalCtrl.dismiss();
   }
 
@@ -71,8 +72,8 @@ export class DetalleComponent implements OnInit {
   favorito() {
 
     //no necesitamos enviar ningun parámetro porque ya lo tenemos en el componente 
-    const existe = this.dataLocal.guardarPelicula(this.pelicula)
-    this.estrella = (existe) ? 'star' : 'star-outline'
+    this.estrella = this.dataLocal.guardarPelicula(this.pelicula)
+
   }
 
 }

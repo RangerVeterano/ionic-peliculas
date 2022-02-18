@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RespuestaMDB, PeliculaDetalle, RespuestaCredits } from '../interfaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCredits, Genre } from '../interfaces/interfaces';
 import { environment } from '../../environments/environment';
 
 const url = environment.url; //Constante con la url para las peticiones
@@ -14,6 +14,9 @@ export class MoviesService {
 
   // Propiedad privada para controlar la pagina de los populares
   private popularesPage: number = 0;
+
+  //Variable para almacenar generos
+  generos: Genre[] = [];
 
   //inyectamos servicio de peticiones http
   constructor(
@@ -70,6 +73,20 @@ export class MoviesService {
 
   buscarPeliculas(string) {
     return this.ejecutarQuery(`/search/movie?query=${string}`);
+  }
+
+  //metodo para conseguir los generos
+  cargarGenero(): Promise<Genre[]> {
+
+    return new Promise(resolve => {
+      this.ejecutarQuery(`/genre/movie/list?a=1`)
+        .subscribe(resp => {
+          this.generos = resp['genres'];
+
+          resolve(this.generos);
+        });
+    });
+
   }
 
   //metodo privado para realiar las peticiones
