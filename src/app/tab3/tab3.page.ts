@@ -23,9 +23,7 @@ export class Tab3Page {
 
   //metodo del ciclo de vida de ionic que se dispara cada vez que se entra a la vista
   async ionViewWillEnter() {
-    this.peliculas = await this.dataLocal.cargarPeliculas();
-    this.generos = await this.movieService.cargarGenero();
-    this.pelisPorGenero(this.generos, this.peliculas)
+    this.actualizarFavoritos()
 
   }
 
